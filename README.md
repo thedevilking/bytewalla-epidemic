@@ -14,12 +14,6 @@
 	并且在builder里面关掉prebuilder。
 	Restart Eclipse，再重新导入工程即可
 2.在手机上成功安装完应用后，需要先加载aodv模块再启动服务   
-================================================
-This is a Delay Tolerant Networking implementation on the Android platform.
-This project based on bytawalla which based on DTN2.
-This implementation is written in Java and highly inspired by the design of
-DTN2 software version 2.6 developed in C++ by the DTN research group 
-[http://www.dtnrg.org/wiki/Code].
 
 Standards & Compatiblity
 ========================
