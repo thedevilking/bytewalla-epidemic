@@ -347,7 +347,7 @@ public class DTNManager extends Activity  {
 		}
 		
 		//初次加载启动服务
-		try {
+		/*try {
 			start_DTN_service();
 			start_DTN_service_UI_update();
 		} catch (FileNotFoundException e) {
@@ -359,7 +359,7 @@ public class DTNManager extends Activity  {
 		} catch (InvalidDTNConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 

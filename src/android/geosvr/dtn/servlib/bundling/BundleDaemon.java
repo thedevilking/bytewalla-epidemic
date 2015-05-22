@@ -2785,14 +2785,14 @@ public class BundleDaemon extends BundleEventHandler implements Runnable {
 	 * "Initialize and load in the registrations." [DTN2]
 	 */
 	protected void load_registrations() {
-		admin_reg_ = new AdminRegistration();
+		/*admin_reg_ = new AdminRegistration();
 		{
 			RegistrationAddedEvent event = new RegistrationAddedEvent(
 					admin_reg_, event_source_t.EVENTSRC_ADMIN);
 			admin_reg_.endpoint().assign(local_eid_);
 			handle_event(event);
-		}
-		EndpointID ping_eid = new EndpointID(local_eid());
+		}*/
+		/*EndpointID ping_eid = new EndpointID(local_eid());
 		boolean ok = ping_eid.append_service_tag("ping");
 		if (!ok) {
 			Log.e(TAG,String.format("local eid (%s) scheme must be able to append service tags",
@@ -2804,15 +2804,15 @@ public class BundleDaemon extends BundleEventHandler implements Runnable {
 			RegistrationAddedEvent event = new RegistrationAddedEvent(
 					ping_reg_, event_source_t.EVENTSRC_ADMIN);
 			handle_event(event);
-		}
+		}*/
 		
-		EndpointID prophet_eid = new EndpointID(local_eid());
+		/*EndpointID prophet_eid = new EndpointID(local_eid());
 		ok = prophet_eid.append_service_tag("prophet");
 		if (!ok) {
 			Log.e(TAG,String.format("prophet local eid (%s) scheme must be able to append service tags",
 									local_eid().toString()));
 
-		}
+		}*/
 
 		if(BundleRouter.config().type() == router_type_t.PROPHET_BUNDLE_ROUTER)
 		{

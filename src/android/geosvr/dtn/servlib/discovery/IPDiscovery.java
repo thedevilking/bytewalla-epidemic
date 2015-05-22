@@ -24,10 +24,15 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import android.geosvr.dtn.servlib.bundling.BundleDaemon;
@@ -261,6 +266,38 @@ public class IPDiscovery extends Discovery implements Runnable {
 		Log.d(TAG, "discovery thread running");
 		IByteBuffer buf = new SerializableByteBuffer(1024);
 
+		
+		//自动生成本网段的广播地址
+		NetworkInterface netInterface;
+		InetAddress broadcastAddr=null;
+		try {
+
+			broadcastAddr=InetAddress.getByName("255.255.255.255");
+//			Log.i(TAG,"广播地址"+broadcastAddr.getHostAddress());
+			netInterface = NetworkInterface.getByName("adhoc0");
+			
+			if (!netInterface.isLoopback() && netInterface.isUp()) 
+		    {
+		      List<InterfaceAddress> interfaceAddresses = netInterface.getInterfaceAddresses();
+		      Log.i(TAG,"adhoc0网口接口数目："+String.valueOf(interfaceAddresses.size()));
+		      for (InterfaceAddress interfaceAddress : interfaceAddresses) {
+		        if (interfaceAddress.getBroadcast() != null) {
+		        	Log.i(TAG,"广播地址"+interfaceAddress.getBroadcast().getHostAddress());// 输出广播地址
+		        	Log.i(TAG,"子网掩码长度："+interfaceAddress.getNetworkPrefixLength());// 输出子网掩码长度，24表示掩码255.255.255.0
+		        	broadcastAddr=interfaceAddress.getBroadcast();
+		        }
+		      }
+		    }
+			
+//			Log.i(TAG,"广播地址"+interfaceAddresses.get(0).getBroadcast().getHostAddress());
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		while (true) {
 			if (shutdown_)
 				break;
@@ -301,10 +338,12 @@ public class IPDiscovery extends Discovery implements Runnable {
 								data[z] = buf.get(z);
 							}
 
-							DatagramPacket pack = new DatagramPacket(data,
-									data.length, InetAddress
-											.getByName("192.168.1.255"),
-									port_);
+							//原有写死的邻居发现
+							/*DatagramPacket pack = new DatagramPacket(data,data.length, 
+									InetAddress.getByName("192.168.5.255"),port_);*/
+							
+							DatagramPacket pack = new DatagramPacket(data,data.length, 
+									broadcastAddr,port_);
 							socket_.send(pack);
 							min_diff = announce.interval();
 						} catch (Exception e) {
