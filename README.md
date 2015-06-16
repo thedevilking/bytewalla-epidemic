@@ -15,6 +15,10 @@
 	Restart Eclipse，再重新导入工程即可
 2.在手机上成功安装完应用后，需要先加载aodv模块再启动服务   
 
+解决的bug
+====
+ * 解决的bug列表：https://github.com/thedevilking/bytewalla-epidemic/wiki/FixedBugs   
+
 Standards & Compatiblity
 ========================
 This implementation followed the Bundle Protocol specification (RFC5050) and have been tested communicating 
